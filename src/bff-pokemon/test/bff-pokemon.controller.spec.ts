@@ -6,13 +6,13 @@ import { BffPokemonService } from '../bff-pokemon.service';
 describe('BffPokemonController', () => {
   let controller: BffPokemonController;
   const mockService = {
-    byGet: jest.fn((id) => {
+    findByGet: jest.fn((id) => {
       return {
         id: '1',
         name: 'pokemon',
       };
     }),
-    byPost: jest.fn((id) => ({
+    findByPost: jest.fn((id) => ({
       id,
       name: 'pokemon',
     })),
@@ -40,7 +40,18 @@ describe('BffPokemonController', () => {
     controller = module.get<BffPokemonController>(BffPokemonController);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  describe('Should return a pokemon by get or post', () => {
+    it('byGet(), should return a pokemon by id', () => {
+        expect(controller.findByGet('1')).toEqual({
+            id: '1',
+            name: 'pokemon',
+        });
+    });
+    it('byPost(), should return a pokemon by id', () => {
+      expect(controller.findByPost('1')).toEqual({
+          id: '1',
+          name: 'pokemon',
+      });
+  });
   });
 });
